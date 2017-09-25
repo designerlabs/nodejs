@@ -8,6 +8,10 @@ module.exports = function(app){
         var newCat = new Cat(req.body);
         newCat.save(function(err){
             if(err){
+                if (err.name === 'MongoError' && err.code === 11000) {
+                    // Duplicate username
+                    return res.status(500).send({ succes: false, message: 'User already exist!' });
+                }
                 res.json({info:'error during cat create', error: err});
             };
             res.json({info: 'cat created successfully'});

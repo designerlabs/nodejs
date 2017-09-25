@@ -5,9 +5,13 @@ module.exports = function(app){
 
     /*create */
     app.post('/dog', function(req, res){
-        var newDog = new dog(req.body);
+        var newDog = new Dog(req.body);
         newDog.save(function(err){
             if(err){
+                if (err.name === 'MongoError' && err.code === 11000) {
+                    // Duplicate username
+                    return res.status(500).send({ succes: false, message: 'User already exist!' });
+                }
                 res.json({info:'error during dog create', error: err});
             };
             res.json({info: 'dog created successfully'});

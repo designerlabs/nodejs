@@ -1,9 +1,12 @@
 var mongoose = require('mongoose');
 
-var catSchema = mongoose.Schema({
-    name: String,
+var dogSchema = mongoose.Schema({
+    name: {
+        type:String,
+        unique: true
+    },
     age: Number,
     type: String
 });
 
-module.exports = mongoose.model('Dog', catSchema);
+module.exports = mongoose.model('Dog', dogSchema);

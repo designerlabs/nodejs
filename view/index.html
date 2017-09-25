@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
+    </head>
+    <body>
+        <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">
+            <input type="file" id="myFile" name="myFile" />
+            <input type="submit" name="submit" id="myButton">
+        </form>
+    <script>
+        var form = document.forms.namedItem("myForm");
+        form.addEventListener('submit', function(ev){
+            var myFile = document.getElementById("myFile").files[0];
+
+            var oData = new FormData(form);
+
+            var oReq = new XMLHttpRequest();
+
+            oReq.open("POST", "http://127.0.0.1:3003/image", true);
+
+            oReq.onload = function(oEvent){
+                if(oReq.status == 200){
+                    console.log('success')
+                }else{
+                    console.log("error");
+                }
+            };
+
+            oReq.send(oData);
+            ev.preventDefault();
+        }, false)
+    </script>
+    </body>
+</html>
