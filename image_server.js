@@ -36,31 +36,30 @@ mongoose.connect('mongodb://localhost/files');
 //var routes = require('./routes/imagefile.js')(app);
 
  app.get('/image', function(req, res){
-
+    Image.find(function(err, img){
+        if(err){
+            res.json({info:'error during find dogs', error: err});
+        };
+        res.json({info: 'dog found successfully', data: img});
+    });
   });
   
   // accept one file where the name of the form field is named photho
   app.post('/image', function(req, res){
  
-    var newImage = new Image(req.body);
-    // newImage.save(function(err){
-    //     if(err){
-    //         console.log(err)
-    //         if (err.name === 'MongoError' && err.code === 11000) {
-    //             // Duplicate username
-    //             return res.status(500).send({ succes: false, message: 'User already exist!' });
-    //         }
-    //         res.json({info:'error during image create', error: err});
-    //     };
-    //     res.json({info: 'image created successfully'});
-    // });
+    var newImage = new Image();
     upload(req, res, function(err){
         if(err){
             return res.end("Error in uploading file");
         }
         res.end("file has been uploaded");
+
+        newImage.path = req.file.path;
+        newImage.originalname = req.file.filename;
+        newImage.save();
     });
   });
+  
   
 
 var server = app.listen(3003, function(){

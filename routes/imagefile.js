@@ -35,26 +35,8 @@ module.exports = function(app){
         storage: storage
     });
 
-
-    
-    app.post('/image',function(req,res){
-        var newItem = new Image();
-        newItem.img.data = fs.readFileSync(req.files.userPhoto.path)
-        newItem.img.contentType = 'image/png';
-        newItem.save();
-    });
-
-
-    app.get('/image', function(req, res, next) {
-
-        Image.find(function(err, img){
-            if(err){
-                res.json({info:'error during find images', error: err});
-            };
-            res.json({info: 'images found successfully', data: img});
-        });
-        
-    });
+ 
+   
 
         
 };

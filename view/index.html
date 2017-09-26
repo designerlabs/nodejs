@@ -9,19 +9,21 @@
     <body>
         <form id="myForm" name="myForm" enctype="multipart/form-data" method="post">
             <input type="file" id="myFile" name="myFile" />
+            <input type="text" id="path" name="path" />
+            <input type="text" id="originalname" name="originalname" />
             <input type="submit" name="submit" id="myButton">
         </form>
     <script>
         var form = document.forms.namedItem("myForm");
         form.addEventListener('submit', function(ev){
             var myFile = document.getElementById("myFile").files[0];
-        
-            var oData = new FormData(form);
-
-            var oReq = new XMLHttpRequest();
+            var myPath = document.getElementById("path").value;
+            var myOriginal = document.getElementById("path").value;
             
 
-
+            var oData = new FormData(form);
+            var oReq = new XMLHttpRequest();
+            
             oReq.open("POST", "http://127.0.0.1:3003/image", true);
             //oReq.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
             
@@ -33,7 +35,10 @@
                 }
             };
             //oReq.send(JSON.stringify({ path: "hello@user.com", originalname: "name" }));
+            
             oReq.send(oData);
+           // oReq.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+           // oReq.send(JSON.stringify(myData));
             ev.preventDefault();
         }, false)
     </script>
